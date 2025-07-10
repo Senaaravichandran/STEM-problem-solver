@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧪 Advanced STEM Problem Solver</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-flask nav-icon"></i>
+                <span class="nav-title">STEM Solver</span>
+            </div>
+            <div class="nav-controls">
+                <button class="settings-btn" onclick="toggleSettings()">
+                    <i class="fas fa-cog"></i>
+                </button>
+                <div class="theme-toggle">
+                    <button class="theme-btn" onclick="toggleTheme()">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Settings Panel -->
+    <div class="settings-panel" id="settingsPanel">
+        <div class="settings-header">
+            <h3><i class="fas fa-cog"></i> Settings</h3>
+            <button class="close-btn" onclick="toggleSettings()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="settings-content">
+            <div class="setting-group">
+                <label for="apiKey">API Key</label>
+                <input type="password" id="apiKey" placeholder="Enter Together.xyz API key">
+                <small>Get your key from <a href="https://api.together.xyz/settings/api-keys" target="_blank">Together.xyz</a></small>
+            </div>
+            <div class="setting-group">
+                <label for="modelSelect">AI Model</label>
+                <select id="modelSelect">
+                    <option value="meta-llama/Llama-3.3-70B-Instruct-Turbo-Free">Llama 3.3 70B (Recommended)</option>
+                    <option value="meta-llama/Llama-3.1-70B-Instruct">Llama 3.1 70B</option>
+                    <option value="meta-llama/Llama-3-8B-Instruct">Llama 3 8B (Faster)</option>
+                    <option value="mistralai/Mixtral-8x7B-Instruct-v0.1">Mixtral 8x7B</option>
+                </select>
+            </div>
+            <div class="setting-group">
+                <label for="temperature">Temperature: <span id="tempValue">0.2</span></label>
+                <input type="range" id="temperature" min="0" max="1" step="0.1" value="0.2" oninput="updateTempValue(this.value)">
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="gradient-text">Advanced STEM</span>
+                    <span class="highlight">Problem Solver</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Powered by AI to solve complex problems in Physics, Chemistry, Mathematics, Biology, and Computer Science
+                </p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">50K+</span>
+                        <span class="stat-label">Problems Solved</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">15+</span>
+                        <span class="stat-label">STEM Fields</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">99.9%</span>
+                        <span class="stat-label">Accuracy</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab Navigation -->
+        <div class="tab-container">
+            <nav class="tab-nav">
+                <button class="tab-btn active" data-tab="problem-solver">
+                    <i class="fas fa-calculator"></i>
+                    <span>Problem Solver</span>
+                </button>
+                <button class="tab-btn" data-tab="concept-explainer">
+                    <i class="fas fa-brain"></i>
+                    <span>Concept Explainer</span>
+                </button>
+                <button class="tab-btn" data-tab="formula-reference">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Formula Reference</span>
+                </button>
+                <button class="tab-btn" data-tab="study-tips">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Study Tips</span>
+                </button>
+            </nav>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="content-container">
+            <!-- Problem Solver Tab -->
+            <div class="tab-content active" id="problem-solver">
+                <div class="content-card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-calculator"></i> Problem Solver</h2>
+                        <p>Enter your STEM problem for detailed step-by-step solutions</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="form-group">
+                            <div class="input-row">
+                                <div class="input-group">
+                                    <label for="subject">Subject</label>
+                                    <select id="subject" class="form-select">
+                                        <option value="Physics">Physics</option>
+                                        <option value="Chemistry">Chemistry</option>
+                                        <option value="Mathematics">Mathematics</option>
+                                        <option value="Biology">Biology</option>
+                                        <option value="Computer Science">Computer Science</option>
+                                    </select>
+                                </div>
+                                <div class="input-group">
+                                    <label for="difficulty">Difficulty</label>
+                                    <select id="difficulty" class="form-select">
+                                        <option value="Beginner">Beginner</option>
+                                        <option value="Intermediate">Intermediate</option>
+                                        <option value="Advanced">Advanced</option>
+                                        <option value="University">University</option>
+                                        <option value="Graduate">Graduate</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="problemText">Problem Description</label>
+                            <textarea id="problemText" class="form-textarea" rows="6" placeholder="Enter your problem here... e.g., 'Calculate the acceleration of a 2kg block sliding down a 30° inclined plane'"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="showSteps" checked>
+                                    <span class="checkmark"></span>
+                                    Show detailed steps
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="includeTheory" checked>
+                                    <span class="checkmark"></span>
+                                    Include theoretical explanations
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="includeDiagrams" checked>
+                                    <span class="checkmark"></span>
+                                    Suggest diagrams
+                                </label>
+                            </div>
+                        </div>
+                        <div class="button-group">
+                            <button class="btn btn-primary" onclick="solveProblem()">
+                                <i class="fas fa-search"></i>
+                                <span>Solve Problem</span>
+                            </button>
+                            <button class="btn btn-secondary" onclick="clearProblem()">
+                                <i class="fas fa-eraser"></i>
+                                <span>Clear</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="result-container" id="problemResult" style="display: none;">
+                    <div class="result-header">
+                        <h3><i class="fas fa-lightbulb"></i> Solution</h3>
+                        <button class="btn btn-small" onclick="downloadSolution('problem')">
+                            <i class="fas fa-download"></i>
+                            Download
+                        </button>
+                    </div>
+                    <div class="result-content" id="problemSolution"></div>
+                </div>
+            </div>
+
+            <!-- Concept Explainer Tab -->
+            <div class="tab-content" id="concept-explainer">
+                <div class="content-card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-brain"></i> Concept Explainer</h2>
+                        <p>Get clear explanations of complex STEM concepts</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="form-group">
+                            <div class="input-row">
+                                <div class="input-group">
+                                    <label for="conceptSubject">Subject</label>
+                                    <select id="conceptSubject" class="form-select">
+                                        <option value="Physics">Physics</option>
+                                        <option value="Chemistry">Chemistry</option>
+                                        <option value="Mathematics">Mathematics</option>
+                                        <option value="Biology">Biology</option>
+                                        <option value="Computer Science">Computer Science</option>
+                                    </select>
+                                </div>
+                                <div class="input-group">
+                                    <label for="conceptLevel">Level</label>
+                                    <select id="conceptLevel" class="form-select">
+                                        <option value="Beginner">Beginner</option>
+                                        <option value="Intermediate">Intermediate</option>
+                                        <option value="Advanced">Advanced</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="conceptName">Concept to Explain</label>
+                            <input type="text" id="conceptName" class="form-input" placeholder="e.g., Quantum Entanglement, Stoichiometry, Integration by Parts...">
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="includeExamples" checked>
+                                    <span class="checkmark"></span>
+                                    Include practical examples
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="includeHistory">
+                                    <span class="checkmark"></span>
+                                    Include historical context
+                                </label>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="explainConcept()">
+                            <i class="fas fa-search"></i>
+                            <span>Explain Concept</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="result-container" id="conceptResult" style="display: none;">
+                    <div class="result-header">
+                        <h3><i class="fas fa-brain"></i> Explanation</h3>
+                        <button class="btn btn-small" onclick="downloadSolution('concept')">
+                            <i class="fas fa-download"></i>
+                            Download
+                        </button>
+                    </div>
+                    <div class="result-content" id="conceptExplanation"></div>
+                </div>
+            </div>
+
+            <!-- Formula Reference Tab -->
+            <div class="tab-content" id="formula-reference">
+                <div class="content-card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-chart-line"></i> Formula Reference</h2>
+                        <p>Quick reference for formulas and equations</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="form-group">
+                            <div class="input-row">
+                                <div class="input-group">
+                                    <label for="formulaSubject">Subject</label>
+                                    <select id="formulaSubject" class="form-select" onchange="updateTopics()">
+                                        <option value="Physics">Physics</option>
+                                        <option value="Chemistry">Chemistry</option>
+                                        <option value="Mathematics">Mathematics</option>
+                                        <option value="Biology">Biology</option>
+                                        <option value="Engineering">Engineering</option>
+                                    </select>
+                                </div>
+                                <div class="input-group">
+                                    <label for="formulaTopic">Topic</label>
+                                    <select id="formulaTopic" class="form-select">
+                                        <option value="Mechanics">Mechanics</option>
+                                        <option value="Thermodynamics">Thermodynamics</option>
+                                        <option value="Electromagnetism">Electromagnetism</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="formulaSearch">Search Specific Formula</label>
+                            <input type="text" id="formulaSearch" class="form-input" placeholder="e.g., Newton's Second Law, Ohm's Law...">
+                        </div>
+                        <button class="btn btn-primary" onclick="getFormulas()">
+                            <i class="fas fa-search"></i>
+                            <span>Get Formulas</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="result-container" id="formulaResult" style="display: none;">
+                    <div class="result-header">
+                        <h3><i class="fas fa-chart-line"></i> Formula Reference</h3>
+                        <button class="btn btn-small" onclick="downloadSolution('formula')">
+                            <i class="fas fa-download"></i>
+                            Download
+                        </button>
+                    </div>
+                    <div class="result-content" id="formulaContent"></div>
+                </div>
+            </div>
+
+            <!-- Study Tips Tab -->
+            <div class="tab-content" id="study-tips">
+                <div class="content-card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Study Tips</h2>
+                        <p>Get personalized study techniques and advice</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="form-group">
+                            <label for="studySubject">Subject</label>
+                            <select id="studySubject" class="form-select">
+                                <option value="General STEM">General STEM</option>
+                                <option value="Physics">Physics</option>
+                                <option value="Chemistry">Chemistry</option>
+                                <option value="Mathematics">Mathematics</option>
+                                <option value="Biology">Biology</option>
+                                <option value="Computer Science">Computer Science</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-row">
+                                <div class="input-group">
+                                    <label for="learningStyle">Learning Style</label>
+                                    <select id="learningStyle" class="form-select">
+                                        <option value="Visual">Visual</option>
+                                        <option value="Auditory">Auditory</option>
+                                        <option value="Reading/Writing">Reading/Writing</option>
+                                        <option value="Kinesthetic">Kinesthetic</option>
+                                        <option value="Not Sure">Not Sure</option>
+                                    </select>
+                                </div>
+                                <div class="input-group">
+                                    <label for="studyGoal">Study Goal</label>
+                                    <select id="studyGoal" class="form-select">
+                                        <option value="General Understanding">General Understanding</option>
+                                        <option value="Exam Preparation">Exam Preparation</option>
+                                        <option value="Problem-Solving Skills">Problem-Solving Skills</option>
+                                        <option value="Research Preparation">Research Preparation</option>
+                                        <option value="Long-term Retention">Long-term Retention</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Select Your Challenges</label>
+                            <div class="checkbox-grid">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" value="Complex Concepts">
+                                    <span class="checkmark"></span>
+                                    Complex Concepts
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" value="Mathematical Calculations">
+                                    <span class="checkmark"></span>
+                                    Mathematical Calculations
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" value="Memorization">
+                                    <span class="checkmark"></span>
+                                    Memorization
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" value="Problem-Solving">
+                                    <span class="checkmark"></span>
+                                    Problem-Solving
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" value="Time Management">
+                                    <span class="checkmark"></span>
+                                    Time Management
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" value="Test Anxiety">
+                                    <span class="checkmark"></span>
+                                    Test Anxiety
+                                </label>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="getStudyTips()">
+                            <i class="fas fa-search"></i>
+                            <span>Get Study Tips</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="result-container" id="studyResult" style="display: none;">
+                    <div class="result-header">
+                        <h3><i class="fas fa-graduation-cap"></i> Study Plan</h3>
+                        <button class="btn btn-small" onclick="downloadSolution('study')">
+                            <i class="fas fa-download"></i>
+                            Download
+                        </button>
+                    </div>
+                    <div class="result-content" id="studyTips"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h3>Processing your request...</h3>
+            <p class="loading-text">AI is analyzing and solving your problem</p>
+        </div>
+    </div>
+
+    <!-- Notification System -->
+    <div class="notification-container" id="notificationContainer"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2024 Advanced STEM Problem Solver | Powered by AI for Educational Excellence</p>
+            <p class="footer-disclaimer">This tool is designed to enhance learning and understanding, not replace academic integrity</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
