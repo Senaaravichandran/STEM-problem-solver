@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧪 Advanced STEM Problem Solver | AI-Powered Learning Platform</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    
+    <!-- MathJax for mathematical notation -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <!-- Highlight.js for code syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen active">
+        <div class="loading-container">
+            <div class="dna-animation">
+                <div class="dna-strand"></div>
+                <div class="dna-strand"></div>
+            </div>
+            <h2 class="loading-text">Initializing STEM Solver</h2>
+            <div class="loading-progress">
+                <div class="progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-atom"></i>
+                <span>STEM Solver</span>
+            </div>
+            
+            <div class="nav-menu">
+                <div class="nav-item active" data-tab="solver">
+                    <i class="fas fa-calculator"></i>
+                    <span>Problem Solver</span>
+                </div>
+                <div class="nav-item" data-tab="explainer">
+                    <i class="fas fa-brain"></i>
+                    <span>Concept Explainer</span>
+                </div>
+                <div class="nav-item" data-tab="formulas">
+                    <i class="fas fa-square-root-alt"></i>
+                    <span>Formula Reference</span>
+                </div>
+                <div class="nav-item" data-tab="study-tips">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Study Tips</span>
+                </div>
+            </div>
+
+            <div class="nav-controls">
+                <div class="theme-toggle" id="theme-toggle">
+                    <i class="fas fa-moon"></i>
+                </div>
+                <div class="settings-btn" id="settings-btn">
+                    <i class="fas fa-cog"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-content">
+                <!-- API Configuration -->
+                <div class="config-section">
+                    <h3><i class="fas fa-key"></i> API Configuration</h3>
+                    <div class="input-group">
+                        <input type="password" id="api-key" placeholder="Enter Together API Key (optional)">
+                        <button class="btn-icon" onclick="togglePasswordVisibility('api-key')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <p class="help-text">Get your API key from <a href="https://api.together.xyz/settings/api-keys" target="_blank">Together.xyz</a></p>
+                </div>
+
+                <!-- Model Settings -->
+                <div class="config-section">
+                    <h3><i class="fas fa-robot"></i> Model Settings</h3>
+                    <select id="model-select" class="select-input">
+                        <option value="meta-llama/Llama-3.3-70B-Instruct-Turbo-Free">Llama 3.3 70B (Recommended)</option>
+                        <option value="meta-llama/Llama-3.1-70B-Instruct">Llama 3.1 70B</option>
+                        <option value="meta-llama/Llama-3-8B-Instruct">Llama 3 8B (Faster)</option>
+                        <option value="mistralai/Mixtral-8x7B-Instruct-v0.1">Mixtral 8x7B</option>
+                    </select>
+                    
+                    <div class="slider-group">
+                        <label>Temperature: <span id="temp-value">0.2</span></label>
+                        <input type="range" id="temperature" min="0" max="1" step="0.1" value="0.2" class="slider">
+                        <div class="slider-labels">
+                            <span>Precise</span>
+                            <span>Creative</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Subject Guides -->
+                <div class="config-section">
+                    <h3><i class="fas fa-book"></i> Subject Guides</h3>
+                    <div class="subject-list">
+                        <div class="subject-item" data-subject="Physics">
+                            <i class="fas fa-rocket"></i>
+                            <span>Physics</span>
+                        </div>
+                        <div class="subject-item" data-subject="Chemistry">
+                            <i class="fas fa-flask"></i>
+                            <span>Chemistry</span>
+                        </div>
+                        <div class="subject-item" data-subject="Mathematics">
+                            <i class="fas fa-square-root-alt"></i>
+                            <span>Mathematics</span>
+                        </div>
+                        <div class="subject-item" data-subject="Biology">
+                            <i class="fas fa-dna"></i>
+                            <span>Biology</span>
+                        </div>
+                        <div class="subject-item" data-subject="Computer Science">
+                            <i class="fas fa-code"></i>
+                            <span>Computer Science</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Problems -->
+                <div class="config-section">
+                    <h3><i class="fas fa-history"></i> Recent Problems</h3>
+                    <div id="recent-problems" class="recent-list">
+                        <div class="empty-state">
+                            <i class="fas fa-folder-open"></i>
+                            <p>No recent problems</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <!-- Problem Solver Tab -->
+            <div id="solver-tab" class="tab-content active">
+                <div class="header-section">
+                    <h1 class="page-title">
+                        <i class="fas fa-calculator"></i>
+                        Problem Solver
+                        <span class="title-glow"></span>
+                    </h1>
+                    <p class="page-subtitle">Enter your STEM problem for a detailed step-by-step solution</p>
+                </div>
+
+                <div class="card-container">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Subject</label>
+                            <select id="solver-subject" class="select-input">
+                                <option value="Physics">Physics</option>
+                                <option value="Chemistry">Chemistry</option>
+                                <option value="Mathematics">Mathematics</option>
+                                <option value="Biology">Biology</option>
+                                <option value="Computer Science">Computer Science</option>
+                                <option value="Engineering">Engineering</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Difficulty Level</label>
+                            <select id="solver-difficulty" class="select-input">
+                                <option value="Beginner">Beginner</option>
+                                <option value="Intermediate" selected>Intermediate</option>
+                                <option value="Advanced">Advanced</option>
+                                <option value="University">University</option>
+                                <option value="Graduate">Graduate</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Problem Description</label>
+                        <textarea id="problem-input" placeholder="Enter your problem here..." rows="6"></textarea>
+                        <div class="input-actions">
+                            <button class="btn-secondary" onclick="loadExample()">
+                                <i class="fas fa-lightbulb"></i>
+                                Load Example
+                            </button>
+                            <button class="btn-secondary" onclick="clearProblem()">
+                                <i class="fas fa-trash"></i>
+                                Clear
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="options-grid">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="show-steps" checked>
+                            <span class="checkmark"></span>
+                            Show detailed steps
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="include-theory" checked>
+                            <span class="checkmark"></span>
+                            Include theoretical explanations
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="include-diagrams" checked>
+                            <span class="checkmark"></span>
+                            Suggest diagrams
+                        </label>
+                    </div>
+
+                    <button id="solve-btn" class="btn-primary large" onclick="solveProblem()">
+                        <span class="btn-text">
+                            <i class="fas fa-rocket"></i>
+                            Solve Problem
+                        </span>
+                        <div class="btn-loading">
+                            <div class="spinner"></div>
+                            Processing...
+                        </div>
+                    </button>
+                </div>
+
+                <div id="solution-container" class="solution-container hidden">
+                    <div class="solution-header">
+                        <h2><i class="fas fa-lightbulb"></i> Solution</h2>
+                        <div class="solution-actions">
+                            <button class="btn-icon" onclick="copySolution()" title="Copy Solution">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                            <button class="btn-icon" onclick="downloadSolution()" title="Download Solution">
+                                <i class="fas fa-download"></i>
+                            </button>
+                            <button class="btn-icon" onclick="shareSolution()" title="Share Solution">
+                                <i class="fas fa-share"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="solution-content" class="solution-content"></div>
+                </div>
+            </div>
+
+            <!-- Concept Explainer Tab -->
+            <div id="explainer-tab" class="tab-content">
+                <div class="header-section">
+                    <h1 class="page-title">
+                        <i class="fas fa-brain"></i>
+                        Concept Explainer
+                        <span class="title-glow"></span>
+                    </h1>
+                    <p class="page-subtitle">Get clear explanations of complex STEM concepts with examples</p>
+                </div>
+
+                <div class="card-container">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Subject Area</label>
+                            <select id="explainer-subject" class="select-input">
+                                <option value="Physics">Physics</option>
+                                <option value="Chemistry">Chemistry</option>
+                                <option value="Mathematics">Mathematics</option>
+                                <option value="Biology">Biology</option>
+                                <option value="Computer Science">Computer Science</option>
+                                <option value="Engineering">Engineering</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Explanation Level</label>
+                            <select id="explainer-level" class="select-input">
+                                <option value="Beginner">Beginner</option>
+                                <option value="Intermediate" selected>Intermediate</option>
+                                <option value="Advanced">Advanced</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Concept to Explain</label>
+                        <input type="text" id="concept-input" placeholder="e.g., Quantum Entanglement, Stoichiometry, Integration by Parts...">
+                        <div class="concept-suggestions" id="concept-suggestions"></div>
+                    </div>
+
+                    <div class="options-grid">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="include-examples" checked>
+                            <span class="checkmark"></span>
+                            Include practical examples
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="include-history">
+                            <span class="checkmark"></span>
+                            Include historical context
+                        </label>
+                    </div>
+
+                    <button id="explain-btn" class="btn-primary large" onclick="explainConcept()">
+                        <span class="btn-text">
+                            <i class="fas fa-brain"></i>
+                            Explain Concept
+                        </span>
+                        <div class="btn-loading">
+                            <div class="spinner"></div>
+                            Generating explanation...
+                        </div>
+                    </button>
+                </div>
+
+                <div id="explanation-container" class="solution-container hidden">
+                    <div class="solution-header">
+                        <h2><i class="fas fa-graduation-cap"></i> Explanation</h2>
+                        <div class="solution-actions">
+                            <button class="btn-icon" onclick="copyExplanation()" title="Copy Explanation">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                            <button class="btn-icon" onclick="downloadExplanation()" title="Download Explanation">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="explanation-content" class="solution-content"></div>
+                </div>
+            </div>
+
+            <!-- Formula Reference Tab -->
+            <div id="formulas-tab" class="tab-content">
+                <div class="header-section">
+                    <h1 class="page-title">
+                        <i class="fas fa-square-root-alt"></i>
+                        Formula Reference
+                        <span class="title-glow"></span>
+                    </h1>
+                    <p class="page-subtitle">Quick reference for formulas and equations across STEM fields</p>
+                </div>
+
+                <div class="card-container">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Subject</label>
+                            <select id="formula-subject" class="select-input" onchange="updateTopics()">
+                                <option value="Physics">Physics</option>
+                                <option value="Chemistry">Chemistry</option>
+                                <option value="Mathematics">Mathematics</option>
+                                <option value="Biology">Biology</option>
+                                <option value="Engineering">Engineering</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Topic</label>
+                            <select id="formula-topic" class="select-input">
+                                <option value="Mechanics">Mechanics</option>
+                                <option value="Thermodynamics">Thermodynamics</option>
+                                <option value="Electromagnetism">Electromagnetism</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Search Specific Formula (Optional)</label>
+                        <input type="text" id="formula-search" placeholder="e.g., Newton's Second Law, Ideal Gas Law...">
+                    </div>
+
+                    <button id="formulas-btn" class="btn-primary large" onclick="getFormulas()">
+                        <span class="btn-text">
+                            <i class="fas fa-search"></i>
+                            Get Formulas
+                        </span>
+                        <div class="btn-loading">
+                            <div class="spinner"></div>
+                            Fetching formulas...
+                        </div>
+                    </button>
+                </div>
+
+                <div id="formulas-container" class="solution-container hidden">
+                    <div class="solution-header">
+                        <h2><i class="fas fa-calculator"></i> Formula Reference</h2>
+                        <div class="solution-actions">
+                            <button class="btn-icon" onclick="copyFormulas()" title="Copy Formulas">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                            <button class="btn-icon" onclick="downloadFormulas()" title="Download Formula Sheet">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="formulas-content" class="solution-content"></div>
+                </div>
+            </div>
+
+            <!-- Study Tips Tab -->
+            <div id="study-tips-tab" class="tab-content">
+                <div class="header-section">
+                    <h1 class="page-title">
+                        <i class="fas fa-graduation-cap"></i>
+                        Study Tips
+                        <span class="title-glow"></span>
+                    </h1>
+                    <p class="page-subtitle">Get personalized study techniques and advice for mastering STEM subjects</p>
+                </div>
+
+                <div class="card-container">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Subject</label>
+                            <select id="study-subject" class="select-input">
+                                <option value="General STEM">General STEM</option>
+                                <option value="Physics">Physics</option>
+                                <option value="Chemistry">Chemistry</option>
+                                <option value="Mathematics">Mathematics</option>
+                                <option value="Biology">Biology</option>
+                                <option value="Computer Science">Computer Science</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Learning Style</label>
+                            <select id="learning-style" class="select-input">
+                                <option value="Visual">Visual</option>
+                                <option value="Auditory">Auditory</option>
+                                <option value="Reading/Writing">Reading/Writing</option>
+                                <option value="Kinesthetic">Kinesthetic</option>
+                                <option value="Not Sure">Not Sure</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Study Goal</label>
+                        <select id="study-goal" class="select-input">
+                            <option value="General Understanding">General Understanding</option>
+                            <option value="Exam Preparation">Exam Preparation</option>
+                            <option value="Problem-Solving Skills">Problem-Solving Skills</option>
+                            <option value="Research Preparation">Research Preparation</option>
+                            <option value="Long-term Retention">Long-term Retention</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Select Your Challenges</label>
+                        <div class="challenges-grid">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="challenges" value="Complex Concepts">
+                                <span class="checkmark"></span>
+                                Complex Concepts
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="challenges" value="Mathematical Calculations">
+                                <span class="checkmark"></span>
+                                Mathematical Calculations
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="challenges" value="Memorization">
+                                <span class="checkmark"></span>
+                                Memorization
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="challenges" value="Problem-Solving">
+                                <span class="checkmark"></span>
+                                Problem-Solving
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="challenges" value="Time Management">
+                                <span class="checkmark"></span>
+                                Time Management
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="challenges" value="Test Anxiety">
+                                <span class="checkmark"></span>
+                                Test Anxiety
+                            </label>
+                        </div>
+                    </div>
+
+                    <button id="study-tips-btn" class="btn-primary large" onclick="getStudyTips()">
+                        <span class="btn-text">
+                            <i class="fas fa-magic"></i>
+                            Get Study Plan
+                        </span>
+                        <div class="btn-loading">
+                            <div class="spinner"></div>
+                            Creating study plan...
+                        </div>
+                    </button>
+                </div>
+
+                <div id="study-tips-container" class="solution-container hidden">
+                    <div class="solution-header">
+                        <h2><i class="fas fa-star"></i> Personalized Study Plan</h2>
+                        <div class="solution-actions">
+                            <button class="btn-icon" onclick="copyStudyTips()" title="Copy Study Plan">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                            <button class="btn-icon" onclick="downloadStudyTips()" title="Download Study Plan">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="study-tips-content" class="solution-content"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-cog"></i> Settings</h2>
+                <button class="close-btn" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="setting-group">
+                    <h3>Appearance</h3>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="dark-mode-toggle">
+                        <span class="checkmark"></span>
+                        Dark Mode
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="animations-toggle" checked>
+                        <span class="checkmark"></span>
+                        Enable Animations
+                    </label>
+                </div>
+                
+                <div class="setting-group">
+                    <h3>Notifications</h3>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="sound-toggle" checked>
+                        <span class="checkmark"></span>
+                        Sound Effects
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="completion-notifications" checked>
+                        <span class="checkmark"></span>
+                        Completion Notifications
+                    </label>
+                </div>
+
+                <div class="setting-group">
+                    <h3>Performance</h3>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="auto-save" checked>
+                        <span class="checkmark"></span>
+                        Auto-save Solutions
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="preload-examples">
+                        <span class="checkmark"></span>
+                        Preload Examples
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notification-container" class="notification-container"></div>
+
+    <!-- Progress Bar -->
+    <div id="progress-bar" class="progress-bar-container hidden">
+        <div class="progress-bar-fill"></div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
