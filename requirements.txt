@@ -1,0 +1,23 @@
+# STEM Problem Solver - Production Requirements
+# Core Framework
+flask>=2.3.0
+flask-cors>=4.0.0
+
+# Environment & Configuration
+python-dotenv>=1.0.0
+requests>=2.31.0
+
+# AI & ML Services
+huggingface_hub>=0.20.0
+mistralai>=0.4.0
+
+# Image Processing
+pillow>=10.0.0
+fal-client>=0.4.0
+
+# Data Processing
+numpy>=1.24.0
+pandas>=2.0.0
+
+# Voice Processing
+assemblyai>=0.20.0

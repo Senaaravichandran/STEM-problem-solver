@@ -1,0 +1,10 @@
+# STEM Problem Solver - Minimal Backend Requirements
+# Essential dependencies only for basic functionality
+
+# Core Framework
+flask>=2.3.0
+flask-cors>=4.0.0
+
+# Environment & Configuration
+python-dotenv>=1.0.0
+requests>=2.31.0
