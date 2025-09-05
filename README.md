@@ -1,4 +1,4 @@
-# 🧠 STEM Problem Solver
+# 🧠 STEMCatalyst
 ## AI-Powered Educational Assistant with Voice Integration
 
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org)
